@@ -1,0 +1,23 @@
+<h2>Welcome to your zoo manager</h2>
+<a href='/zoo/new'>Create a new zoo</a>
+<h3>Zoos:</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Location</th>
+      <th></th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each zoo}}
+    <tr>
+      <td><a href="/zoo/{{id}}">{{name}}</a></td>
+      <td>{{location}}</td>
+      <td><a href='/zoo/{{id}}/edit'>edit</a></td>
+      <td><form action='/zoo/{{id}}/?_method=delete' method='POST'><button>x</button></form></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

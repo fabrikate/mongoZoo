@@ -1,0 +1,6 @@
+<h2>Edit a Zoo</h2>
+<form method='POST' action='/zoo/{{id}}?_method=put'>
+  <input type='text' name='zoo[name]' value={{name}} />
+  <input type='text' name='zoo[location]' value={{location}} />
+  <input type='submit' value='Update' />
+</form>
