@@ -1,23 +1,4 @@
 <h2>Take a peek at a zoo</h2>
+<a href='/zoos'>Home</a>
 <p>{{zoo.name}}, {{zoo.location}}</p>
-<h3>Animals:</h3>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Species</th>
-      <th>Age</th>
-      <th>Photo</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each animals}}
-    <tr>
-      <td>{{name}}</td>
-      <td>{{species}}</td>
-      <td>{{age}}</td>
-      <td><img src={{photo}}></td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
+<a href='/zoos/:zoo_id/animals'>Go to Animals </a>

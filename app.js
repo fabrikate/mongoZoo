@@ -28,10 +28,10 @@ app.use(session({
 /************* ZOO ROUTES ***********/
 //HOMEPAGE
 app.get('/', function(req, res) {
-  res.redirect('/zoo');
+  res.redirect('/zoos');
 });
 
-app.get('/zoo', function(req, res) {
+app.get('/zoos', function(req, res) {
   db.Zoo.find({}, function(err, data) {
     console.log()
     if(err) {
@@ -43,38 +43,37 @@ app.get('/zoo', function(req, res) {
 });
 
 //CREATE
-app.get('/zoo/new', function(req, res) {
+app.get('/zoos/new', function(req, res) {
   res.render('newZoo');
 });
 
-app.post('/zoo', function(req, res) {
+app.post('/zoos', function(req, res) {
   db.Zoo.create(req.body.zoo, function(err, data) {
     res.redirect('/zoo');
   })
 })
 
 //EDIT
-app.get('/zoo/:id/edit', function(req, res) {
+app.get('/zoos/:id/edit', function(req, res) {
   db.Zoo.findById(req.params.id, function(err, data) {
     res.render('editZoo', data);
   })
 });
 
-app.put('/zoo/:id', function(req, res) {
-
+app.put('/zoos/:id', function(req, res) {
   db.Zoo.findByIdAndUpdate(req.params.id, req.body.zoo,
     function(err, zoo) {
     if(err) {
       console.log(err);
       res.redirect('/404');
     } else {
-      res.redirect('/zoo');
+      res.redirect('/zoos');
     }
   });
 });
 
 //SHOW
-app.get('/zoo/:id', function(req, res) {
+app.get('/zoos/:id', function(req, res) {
   db.Zoo.findById(req.params.id,
     function(err, zoo) {
       db.Animal.find({
@@ -87,16 +86,66 @@ app.get('/zoo/:id', function(req, res) {
 });
 
 //DELETE
-app.delete('/zoo/:id', function(req, res) {
+app.delete('/zoos/:id', function(req, res) {
   db.Zoo.findById(req.params.id, function(err, data) {
     if(err) {
       res.redirect('/404');
     } else {
       data.remove();
-      res.redirect('/zoo');
+      res.redirect('/zoos');
     }
   })
 })
+
+/***********ANIMALS ROUTE****************/
+
+// Animals Homepage
+app.get('/zoos/:zoo_id/animals', function(req, res) {
+  db.Zoo.findById(req.params.zoo_id).populate('animals').exec(function(err, data) {
+    res.render('animals/animal', {animals: data});
+  });
+});
+
+// CREATE
+app.get('/zoos/:zoo_id/animals/newAnimal', function(req, res) {
+  db.Zoo.findById(req.params.zoo_id, function(err, data) {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log(data);
+      res.render('animals/newAnimal', {zoo: data});
+    }
+  })
+  }
+    // function(err, zoo) {
+    // console.log(zoo)
+    // res.render('animals/newAnimal', {zoo: zoo});
+    // })
+);
+
+app.post('/zoos/:zoo_id/animals', function(req, res) {
+  db.Animal.create(req.body, function(err, animal) {
+    console.log(animal);
+    if(err) {
+      res.redirect('404');
+    } else {
+      db.Zoo.findById(req.params.zoo_id, function(err, zoo) {
+        console.log(zoo);
+        zoo.animals.push(animal);
+        animal.zoo = zoo._id;
+        animal.save();
+        zoo.save();
+        res.redirect('/zoos' + req.params.zoo_id + '/animals');
+
+      })
+    }
+  })
+})
+// EDIT
+
+//SHOW
+
+//DELETE
 
 // CATCH ALL
 
