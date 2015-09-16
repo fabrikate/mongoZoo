@@ -108,18 +108,12 @@ app.get('/zoos/:zoo_id/animals/index', function(req, res) {
 });
 
 // CREATE
-
 app.get('/zoos/:zoo_id/animals/new', function(req, res) {
   db.Zoo.findById(req.params.zoo_id, function(err, zoo) {
-    console.log('err is ',err);
-    console.log('query result is ', zoo)
-    console.log('req.params.zoo_id is ', req.params.zoo_id)
     res.render('animals/new', {zoo: zoo})
   })
 })
-
-
-app.post('/zoos/:zoo_id/animals/new', function(req, res) {
+app.post('/zoos/:zoo_id/animals/index', function(req, res) {
   db.Animal.create(req.body.animal, function(err, animal) {
     if(err) {
       res.redirect('404');
@@ -139,6 +133,11 @@ app.post('/zoos/:zoo_id/animals/new', function(req, res) {
 
 // EDIT
 
+app.get('zoos/:zoo_id/animals/edit', function(req, res) {
+  db.Zoo.findById(req.params.zoo_id, function(err, zoo) {
+
+  })
+})
 //SHOW
 
 //DELETE
