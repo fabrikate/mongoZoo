@@ -1,5 +1,5 @@
 <h2>Add an animal</h2>
-<form method='POST' action='/zoos/{{zoo.id}}/animals'>
+<form method='POST' action='/zoos/:zoo_id/animals/index'>
   <input type='text' name='animal[name]' placeholder="Animal's name" />
   <input type='text' name='animal[species]' placeholder='Animal species' />
   <input type='number' name='animal[age]' placeholder="Animal's age" />

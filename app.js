@@ -100,20 +100,20 @@ app.delete('/zoos/:id', function(req, res) {
 /***********ANIMALS ROUTE****************/
 
 // Animals Homepage
-app.get('/zoos/:zoo_id/animals', function(req, res) {
+app.get('/zoos/:zoo_id/animals/index', function(req, res) {
   db.Zoo.findById(req.params.zoo_id).populate('animals').exec(function(err, data) {
-    res.render('animals/animal', {animals: data});
+    res.render('animals/index', {animals: data});
   });
 });
 
 // CREATE
-app.get('/zoos/:zoo_id/animals/newAnimal', function(req, res) {
+app.get('/zoos/:zoo_id/animals/new', function(req, res) {
   db.Zoo.findById(req.params.zoo_id, function(err, data) {
     if(err) {
       console.log(err);
     } else {
       console.log(data);
-      res.render('animals/newAnimal', {zoo: data});
+      res.render('animals/new', {zoo: data});
     }
   })
   }
@@ -123,7 +123,7 @@ app.get('/zoos/:zoo_id/animals/newAnimal', function(req, res) {
     // })
 );
 
-app.post('/zoos/:zoo_id/animals', function(req, res) {
+app.post('/zoos/:zoo_id/animals/new', function(req, res) {
   db.Animal.create(req.body, function(err, animal) {
     console.log(animal);
     if(err) {
