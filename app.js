@@ -124,7 +124,8 @@ app.post('/zoos/:zoo_id/animals/index', function(req, res) {
         animal.zoo = zoo._id;
         animal.save();
         zoo.save();
-        res.redirect('/zoos' + req.params.zoo_id + '/animals');
+        console.log('/zoos/' + req.params.zoo_id + '/animals');
+        res.redirect('/zoos/' + req.params.zoo_id + '/animals/index');
 
       })
     }
