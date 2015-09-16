@@ -102,35 +102,30 @@ app.delete('/zoos/:id', function(req, res) {
 // Animals Homepage
 app.get('/zoos/:zoo_id/animals/index', function(req, res) {
   db.Zoo.findById(req.params.zoo_id).populate('animals').exec(function(err, data) {
-    res.render('animals/index', {animals: data});
+    console.log('index data is ', data);
+    res.render('animals/index', {zoo: data});
   });
 });
 
 // CREATE
+
 app.get('/zoos/:zoo_id/animals/new', function(req, res) {
-  db.Zoo.findById(req.params.zoo_id, function(err, data) {
-    if(err) {
-      console.log(err);
-    } else {
-      console.log(data);
-      res.render('animals/new', {zoo: data});
-    }
+  db.Zoo.findById(req.params.zoo_id, function(err, zoo) {
+    console.log('err is ',err);
+    console.log('query result is ', zoo)
+    console.log('req.params.zoo_id is ', req.params.zoo_id)
+    res.render('animals/new', {zoo: zoo})
   })
-  }
-    // function(err, zoo) {
-    // console.log(zoo)
-    // res.render('animals/newAnimal', {zoo: zoo});
-    // })
-);
+})
+
 
 app.post('/zoos/:zoo_id/animals/new', function(req, res) {
-  db.Animal.create(req.body, function(err, animal) {
-    console.log(animal);
+  db.Animal.create(req.body.animal, function(err, animal) {
     if(err) {
       res.redirect('404');
     } else {
       db.Zoo.findById(req.params.zoo_id, function(err, zoo) {
-        console.log(zoo);
+
         zoo.animals.push(animal);
         animal.zoo = zoo._id;
         animal.save();
@@ -141,6 +136,7 @@ app.post('/zoos/:zoo_id/animals/new', function(req, res) {
     }
   })
 })
+
 // EDIT
 
 //SHOW
